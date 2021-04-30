@@ -73,10 +73,7 @@ export class FocusChangeAutoSaveTracker {
       ) {
         continue;
       }
-      const context = this._docManager.contextForWidget(widget);
-      if (context !== undefined) {
-        documentWidgets.push(widget);
-      }
+      documentWidgets.push(widget);
     }
     return documentWidgets;
   }
@@ -110,6 +107,18 @@ export class FocusChangeAutoSaveTracker {
   }
 
   /**
+   * Saves all document widgets
+   */
+  saveAllDocumentWidgets(): void {
+    for (const widget of this.documentWidgets(false)) {
+      this.saveOldWidget(this._focusTracker, {
+        oldValue: widget,
+        newValue: null,
+      });
+    }
+  }
+
+  /**
    * Handler for currentChanged signals on the FocusTracker.
    * This handler calls save on the widget that lost focus.
    *
@@ -123,7 +132,10 @@ export class FocusChangeAutoSaveTracker {
     const oldWidget = changedArgs.oldValue;
     if (oldWidget !== null) {
       const context = this._docManager.contextForWidget(oldWidget);
-      if (this._excludeMatcher.match(context.path) === false) {
+      if (
+        context !== undefined &&
+        this._excludeMatcher.match(context.path) === false
+      ) {
         context.save();
         this._debug_printer('Saving: ', context.path);
       }
@@ -139,6 +151,7 @@ export class FocusChangeAutoSaveTracker {
     this._excludeMatcher = new Minimatch(`{${exclude.join(',')},}`);
     this._debug_printer('_excludeMatcher: ', this._excludeMatcher);
     debug_printer(true, 'Setting active state to: ', active);
+    this.saveAllDocumentWidgets();
 
     if (active === true) {
       this.trackWidgets();
