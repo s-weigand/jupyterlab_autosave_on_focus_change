@@ -10,9 +10,11 @@ import { ISettingRegistry } from '@jupyterlab/settingregistry';
 import { IEditorTracker } from '@jupyterlab/fileeditor';
 import { IDocumentManager } from '@jupyterlab/docmanager';
 
-import { FocusSaveTracker } from './tracker';
+import { IMainMenu } from '@jupyterlab/mainmenu';
 
-const PLUGIN_ID = 'jupyterlab_autosave_on_focus_change:plugin';
+import { FocusChangeAutoSaveTracker } from './tracker';
+import { FocusChangeAutoSaveSettings } from './settings';
+import { PLUGIN_ID } from './consts';
 
 /**
  * Initialization data for the jupyterlab_autosave_on_focus_change extension.
@@ -25,6 +27,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     IEditorTracker,
     IDocumentManager,
     ISettingRegistry,
+    IMainMenu,
   ],
   activate: (
     app: JupyterFrontEnd,
@@ -32,21 +35,29 @@ const extension: JupyterFrontEndPlugin<void> = {
     editorTracker: IEditorTracker,
     docManager: IDocumentManager,
     settingRegistry: ISettingRegistry,
+    mainMenu: IMainMenu,
   ) => {
     console.log(
       'JupyterLab extension jupyterlab_autosave_on_focus_change is activated!',
     );
-    const { shell } = app;
 
-    const focusSaveTracker = new FocusSaveTracker({
-      shell,
+    const focusSaveTracker = new FocusChangeAutoSaveTracker({
+      shell: app.shell,
       docManager,
       notebookTracker,
       editorTracker,
-      debug: true,
+      // debug: true,
     });
 
-    focusSaveTracker.setActiveState(true);
+    const settings = new FocusChangeAutoSaveSettings({
+      app,
+      settingRegistry,
+      focusSaveTracker,
+      mainMenu,
+      // debug: true,
+    });
+
+    settings.trackSettingChanges();
   },
 };
 

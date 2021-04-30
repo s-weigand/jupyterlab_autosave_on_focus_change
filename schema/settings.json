@@ -1,0 +1,13 @@
+{
+  "title": "Autosave on Focus Change",
+  "description": "Autosave on Focus Change Settings.",
+  "type": "object",
+  "properties": {
+    "active": {
+      "type": "boolean",
+      "title": "Autosave Documents on Focus Change",
+      "description": "Whether to autosave documents on Focus Change.",
+      "default": true
+    }
+  }
+}

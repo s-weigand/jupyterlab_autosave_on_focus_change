@@ -16,6 +16,9 @@ graft style
 prune **/node_modules
 prune lib
 
+# Settings schema
+include schema/settings.json
+
 # Patterns to exclude from any directory
 global-exclude *~
 global-exclude *.pyc

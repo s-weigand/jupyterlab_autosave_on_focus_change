@@ -28,7 +28,7 @@ export interface IFocusSaveTrackerArgs {
 /**
  * Tracker to react to focus changes of all document widgets.
  */
-export class FocusSaveTracker {
+export class FocusChangeAutoSaveTracker {
   private _shell: JupyterFrontEnd.IShell;
   private _docManager: IDocumentManager;
   private _notebookTracker: INotebookTracker;
@@ -37,9 +37,9 @@ export class FocusSaveTracker {
   private _debug_printer: (...args: any[]) => void;
 
   /**
-   * Initialization of FocusSaveTracker.
+   * Initialization of FocusChangeAutoSaveTracker.
    *
-   * @param initArgs Arguments to instantiate FocusSaveTracker.
+   * @param initArgs Arguments to instantiate FocusChangeAutoSaveTracker.
    */
   constructor(initArgs: IFocusSaveTrackerArgs) {
     const args: IFocusSaveTrackerArgs = { debug: false, ...initArgs };
