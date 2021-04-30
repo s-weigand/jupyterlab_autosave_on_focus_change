@@ -8,6 +8,15 @@
       "title": "Autosave Documents on Focus Change",
       "description": "Whether to autosave documents on Focus Change.",
       "default": true
+    },
+    "exclude": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "title": "Files to exclude from save on focus change.",
+      "description": "List of glob patterns to exclude.\nThe root will be relative to where you started jupyterlab from",
+      "default": []
     }
   }
 }

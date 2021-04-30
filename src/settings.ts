@@ -59,7 +59,8 @@ export class FocusChangeAutoSaveSettings {
   loadSetting(setting: ISettingRegistry.ISettings): void {
     // Read the settings and convert to the correct type
     this._active = setting.get('active').composite as boolean;
-    this._saveTracker.setActiveState(this._active);
+    const exclude = setting.get('exclude').composite as string[];
+    this._saveTracker.updateSettings(this._active, exclude);
 
     this._debug_printer('FocusChangeAutoSaveSettings.loadSetting:', {
       active: this._active,

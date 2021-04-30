@@ -7,6 +7,8 @@ import { IEditorTracker } from '@jupyterlab/fileeditor';
 import { FocusTracker, Widget } from '@lumino/widgets';
 import { toArray } from '@lumino/algorithm';
 
+import { Minimatch, IMinimatch } from 'minimatch';
+
 import { debug_printer, create_debug_printer } from './utils';
 
 /**
@@ -29,11 +31,14 @@ export interface IFocusSaveTrackerArgs {
  * Tracker to react to focus changes of all document widgets.
  */
 export class FocusChangeAutoSaveTracker {
+  // object passed at Initialization
   private _shell: JupyterFrontEnd.IShell;
   private _docManager: IDocumentManager;
   private _notebookTracker: INotebookTracker;
   private _editorTracker: IEditorTracker;
   private _focusTracker: FocusTracker<Widget>;
+  // objects created
+  private _excludeMatcher: IMinimatch;
   private _debug_printer: (...args: any[]) => void;
 
   /**
@@ -118,20 +123,24 @@ export class FocusChangeAutoSaveTracker {
     const oldWidget = changedArgs.oldValue;
     if (oldWidget !== null) {
       const context = this._docManager.contextForWidget(oldWidget);
-      context.save();
-      this._debug_printer('Saving: ', context.path);
+      if (this._excludeMatcher.match(context.path) === false) {
+        context.save();
+        this._debug_printer('Saving: ', context.path);
+      }
     }
   }
 
   /**
    * Activate or deactivate the tracking.
    *
-   * @param activeState Setting if the Extension is active or not.
+   * @param active Setting if the Extension is active or not.
    */
-  setActiveState(activeState: boolean): void {
-    debug_printer(true, 'Setting active state to: ', activeState);
+  updateSettings(active: boolean, exclude: string[]): void {
+    this._excludeMatcher = new Minimatch(`{${exclude.join(',')},}`);
+    this._debug_printer('_excludeMatcher: ', this._excludeMatcher);
+    debug_printer(true, 'Setting active state to: ', active);
 
-    if (activeState === true) {
+    if (active === true) {
       this.trackWidgets();
       this._notebookTracker.widgetAdded.connect(this.trackWidgets, this);
       this._editorTracker.widgetAdded.connect(this.trackWidgets, this);
