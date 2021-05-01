@@ -4,7 +4,7 @@ import { IDocumentManager } from '@jupyterlab/docmanager';
 import { INotebookTracker } from '@jupyterlab/notebook';
 import { IEditorTracker } from '@jupyterlab/fileeditor';
 
-import { FocusTracker, Widget } from '@lumino/widgets';
+import { Widget } from '@lumino/widgets';
 import { toArray } from '@lumino/algorithm';
 
 import { Minimatch, IMinimatch } from 'minimatch';
@@ -32,12 +32,20 @@ export interface IFocusSaveTrackerArgs {
  */
 export class FocusChangeAutoSaveTracker {
   // object passed at Initialization
+
+  /** Instance of IShell (app.shell) passed to the extension.  */
   private _shell: JupyterFrontEnd.IShell;
+  /** Instance of IDocumentManager passed to the extension.  */
   private _docManager: IDocumentManager;
+  /** Instance of INotebookTracker passed to the extension.  */
   private _notebookTracker: INotebookTracker;
+  /** Instance of IEditorTracker passed to the extension.  */
   private _editorTracker: IEditorTracker;
-  private _focusTracker: FocusTracker<Widget>;
   // objects created
+
+  /** Mapping of widget nodes to widget objects to be used with event handlers */
+  private _nodes = new Map<HTMLElement, Widget>();
+  /** Glob pattern matcher to check if a document is excluded. */
   private _excludeMatcher: IMinimatch;
   private _debug_printer: (...args: any[]) => void;
 
@@ -52,10 +60,7 @@ export class FocusChangeAutoSaveTracker {
     this._docManager = args.docManager;
     this._notebookTracker = args.notebookTracker;
     this._editorTracker = args.editorTracker;
-    this._focusTracker = new FocusTracker();
     this._debug_printer = create_debug_printer(args.debug);
-
-    this._focusTracker.currentChanged.connect(this.saveOldWidget, this);
   }
 
   /**
@@ -65,7 +70,7 @@ export class FocusChangeAutoSaveTracker {
    * @returns Array of document widgets
    */
   documentWidgets(skipTracked = true): Array<Widget> {
-    const documentWidgets: Widget[] = [];
+    const widgetArray: Widget[] = [];
     for (const widget of toArray(this._shell.widgets('main'))) {
       if (
         widget.node.classList.contains('saves-on-lose-focus') &&
@@ -73,9 +78,22 @@ export class FocusChangeAutoSaveTracker {
       ) {
         continue;
       }
-      documentWidgets.push(widget);
+      if (this.isDocumentWidget(widget)) {
+        widgetArray.push(widget);
+      }
     }
-    return documentWidgets;
+    return widgetArray;
+  }
+
+  /**
+   * Determine if a widget is a document widget.
+   *
+   * @param widget Widget to check if it is a document Widget
+   * @returns True if the widget is a document widget, else false.
+   */
+  isDocumentWidget(widget: Widget): boolean {
+    const context = this._docManager.contextForWidget(widget);
+    return context !== undefined;
   }
 
   /**
@@ -83,13 +101,10 @@ export class FocusChangeAutoSaveTracker {
    */
   trackWidgets(): void {
     for (const widget of this.documentWidgets()) {
+      this._nodes.set(widget.node, widget);
       widget.node.classList.add('saves-on-lose-focus');
-      this._focusTracker.add(widget);
+      widget.node.addEventListener('focusout', this);
     }
-    this._debug_printer(
-      'trackWidgets with documentWidgets:',
-      this._focusTracker.widgets,
-    );
   }
 
   /**
@@ -98,47 +113,46 @@ export class FocusChangeAutoSaveTracker {
   unTrackWidgets(): void {
     for (const widget of this.documentWidgets(false)) {
       widget.node.classList.remove('saves-on-lose-focus');
-      this._focusTracker.remove(widget);
+      widget.node.removeEventListener('focusout', this);
     }
-    this._debug_printer(
-      'trackWidgets with documentWidgets:',
-      this._focusTracker.widgets,
-    );
+    this._nodes.clear();
   }
 
   /**
-   * Saves all document widgets
+   * Handle the DOM events for focusout.
+   *
+   * @param event - The DOM event triggered on the tracked node.
+   *
+   * #### Notes
+   * See: https://stackoverflow.com/a/58149336/3990615
+   */
+  handleEvent(event: Event): void {
+    const widget = this._nodes.get(event.currentTarget as HTMLElement);
+    switch (event.type) {
+      case 'focusout':
+        this.saveDocumentWidget(widget);
+        break;
+    }
+  }
+  /**
+   * Save Widget if it is a document Widget.
+   *
+   * @param widget Widget which will be saved if it is a document widget
+   */
+  saveDocumentWidget(widget: Widget): void {
+    const context = this._docManager.contextForWidget(widget);
+    if (this._excludeMatcher.match(context.path) === false) {
+      context.save();
+      this._debug_printer('Saving: ', context.path);
+    }
+  }
+
+  /**
+   * Save all document widgets.
    */
   saveAllDocumentWidgets(): void {
     for (const widget of this.documentWidgets(false)) {
-      this.saveOldWidget(this._focusTracker, {
-        oldValue: widget,
-        newValue: null,
-      });
-    }
-  }
-
-  /**
-   * Handler for currentChanged signals on the FocusTracker.
-   * This handler calls save on the widget that lost focus.
-   *
-   * @param _emitter FocusTracker that emitted the change
-   * @param changedArgs Changed values with old and new widget.
-   */
-  saveOldWidget(
-    _emitter: FocusTracker<Widget>,
-    changedArgs: FocusTracker.IChangedArgs<Widget>,
-  ): void {
-    const oldWidget = changedArgs.oldValue;
-    if (oldWidget !== null) {
-      const context = this._docManager.contextForWidget(oldWidget);
-      if (
-        context !== undefined &&
-        this._excludeMatcher.match(context.path) === false
-      ) {
-        context.save();
-        this._debug_printer('Saving: ', context.path);
-      }
+      this.saveDocumentWidget(widget);
     }
   }
 
@@ -148,7 +162,9 @@ export class FocusChangeAutoSaveTracker {
    * @param active Setting if the Extension is active or not.
    */
   updateSettings(active: boolean, exclude: string[]): void {
-    this._excludeMatcher = new Minimatch(`{${exclude.join(',')},}`);
+    this._excludeMatcher = new Minimatch(`{${exclude.join(',')},}`, {
+      nocomment: true,
+    });
     this._debug_printer('_excludeMatcher: ', this._excludeMatcher);
     debug_printer(true, 'Setting active state to: ', active);
     this.saveAllDocumentWidgets();
