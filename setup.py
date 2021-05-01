@@ -52,6 +52,12 @@ setup_args = dict(
     include_package_data=True,
     python_requires=">=3.6",
     platforms="Linux, Mac OS X, Windows",
+    project_urls={
+        "Documentation": "https://s-weigand.github.io/jupyterlab_autosave_on_focus_change/",
+        "Source": "https://github.com/s-weigand/jupyterlab_autosave_on_focus_change",
+        "Tracker": "https://github.com/s-weigand/jupyterlab_autosave_on_focus_change/issues",
+        "Changelog": "https://github.com/s-weigand/jupyterlab_autosave_on_focus_change/blob/main/CHANGELOG.md",
+    },
     keywords=[
         "Jupyter",
         "JupyterLab",
