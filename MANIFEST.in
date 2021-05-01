@@ -16,6 +16,10 @@ graft style
 prune **/node_modules
 prune lib
 
+# Repo files excluded from dist
+prune binder
+prune assets
+
 # Settings schema
 include schema/settings.json
 
