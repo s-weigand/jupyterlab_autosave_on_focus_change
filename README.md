@@ -6,11 +6,9 @@
 
 A Jupyterlab extension to autosave files on focus change.
 
-<center>
+<br>
 
-![demo](https://github.com/s-weigand/jupyterlab_autosave_on_focus_change/blob/main/assets/demo.gif?raw=true)
-
-</center>
+<img style="display: block; margin: auto;" src="https://github.com/s-weigand/jupyterlab_autosave_on_focus_change/blob/main/assets/demo.gif?raw=true">
 
 Who doesn't know this scenario, you changed some code or input file and the changes don't apply because (**again!**)
 you forgot to save the file.
