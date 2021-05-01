@@ -1,5 +1,7 @@
 # Jupyterlab Autosave on Focus Change
 
+[![PyPi Version](https://img.shields.io/pypi/v/jupyterlab_autosave_on_focus_change.svg)](https://pypi.org/project/jupyterlab_autosave_on_focus_change/)
+[![Supported Python Versions](https://img.shields.io/pypi/pyversions/jupyterlab_autosave_on_focus_change.svg)](https://pypi.org/project/jupyterlab_autosave_on_focus_change/)
 ![Github Actions Status](https://github.com/s-weigand/jupyterlab_autosave_on_focus_change/workflows/Build/badge.svg)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/s-weigand/jupyterlab_autosave_on_focus_change/main?urlpath=lab)
 [![Docs](https://img.shields.io/badge/documentation-yes-brightgreen.svg)](https://s-weigand.github.io/jupyterlab_autosave_on_focus_change/)
