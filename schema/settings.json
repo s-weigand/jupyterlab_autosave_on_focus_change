@@ -1,6 +1,8 @@
 {
   "title": "Autosave on Focus Change",
   "description": "Autosave on Focus Change Settings.",
+  "jupyter.lab.setting-icon": "ui-components:save",
+  "jupyter.lab.setting-icon-label": "Autosave on Focus Change",
   "type": "object",
   "properties": {
     "active": {
