@@ -1,8 +1,33 @@
-# jupyterlab_autosave_on_focus_change
+# Jupyterlab Autosave on Focus Change
 
-![Github Actions Status](https://github.com/s-weigand/jupyterlab_autosave_on_focus_change/workflows/Build/badge.svg)[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/s-weigand/jupyterlab_autosave_on_focus_change/main?urlpath=lab)
+![Github Actions Status](https://github.com/s-weigand/jupyterlab_autosave_on_focus_change/workflows/Build/badge.svg)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/s-weigand/jupyterlab_autosave_on_focus_change/main?urlpath=lab)
+[![Docs](https://img.shields.io/badge/documentation-yes-brightgreen.svg)](https://s-weigand.github.io/jupyterlab_autosave_on_focus_change/)
 
-Autosave files on focus change
+A Jupyterlab extension to autosave files on focus change.
+
+<center>
+
+![demo](https://github.com/s-weigand/jupyterlab_autosave_on_focus_change/blob/main/assets/demo.gif?raw=true)
+
+</center>
+
+Who doesn't know this scenario, you changed some code or input file and the changes don't apply because (**again!**)
+you forgot to save the file.
+
+This is where editor settings to save files when the tab (or the whole editor) loose focus come in super handy.
+
+This extension aims to do the same for jupyterlab as the following setting in VS-Code.
+
+```json
+  "files.autoSave": "onFocusChange",
+```
+
+## Features
+
+- Autosave on focus change
+- De-/Activation via Settings Menu
+- File exclusion with glob patterns
 
 ## Requirements
 

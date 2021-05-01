@@ -1,7 +1,7 @@
 {
   "name": "jupyterlab_autosave_on_focus_change",
   "version": "0.1.0",
-  "description": "Autosave files on focus change",
+  "description": "Jupyterlab extension to autosave files on focus change",
   "keywords": [
     "jupyter",
     "jupyterlab",
