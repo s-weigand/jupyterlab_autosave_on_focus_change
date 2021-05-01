@@ -4,18 +4,15 @@
 
 Autosave files on focus change
 
-
-
 ## Requirements
 
-* JupyterLab >= 3.0
+- JupyterLab >= 3.0
 
 ## Install
 
 ```bash
 pip install jupyterlab_autosave_on_focus_change
 ```
-
 
 ## Contributing
 
@@ -34,8 +31,6 @@ The `jlpm` command is JupyterLab's pinned version of
 pip install -e .
 # Link your development version of the extension with JupyterLab
 jupyter labextension develop . --overwrite
-# If using a server extension, it must be manually installed in develop mode
-jupyter server extension enable <extension_name>
 # Rebuild extension Typescript source after making changes
 jlpm run build
 ```
