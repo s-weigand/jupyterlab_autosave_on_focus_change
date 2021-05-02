@@ -36,7 +36,7 @@ This extension aims to do the same for jupyterlab as the following setting in VS
 ## Install
 
 ```bash
-pip install jupyterlab_autosave_on_focus_change
+pip install jupyterlab-autosave-on-focus-change
 ```
 
 ## Contributing
@@ -80,5 +80,5 @@ jupyter lab build --minimize=False
 ### Uninstall
 
 ```bash
-pip uninstall jupyterlab_autosave_on_focus_change
+pip uninstall jupyterlab-autosave-on-focus-change
 ```
