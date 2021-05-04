@@ -19,6 +19,12 @@
       "title": "Files to exclude from save on focus change.",
       "description": "List of glob patterns to exclude.\nThe root will be relative to where you started jupyterlab from",
       "default": []
+    },
+    "saveOnCellFocusChange": {
+      "type": "boolean",
+      "title": "Autosave notebook on cell focus change",
+      "description": "Whether to autosave notebook on cell focus change.",
+      "default": false
     }
   }
 }

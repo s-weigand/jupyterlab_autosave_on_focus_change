@@ -9,6 +9,18 @@ import { create_debug_printer } from './utils';
 import { PLUGIN_ID, TOGGLE_ACTIVE_COMMAND_ID } from './consts';
 
 /**
+ * Settings used by FocusChangeAutoSaveTracker.updateSettings
+ */
+export interface IFocusChangeAutoSaveSettings {
+  /** Whether or not the extension is activated. */
+  active: boolean;
+  /** Glob patterns to exclude files from autosaving. */
+  exclude: string[];
+  /** Whether or not to save when cell focus changed. */
+  saveOnCellFocusChange: boolean;
+}
+
+/**
  * Arguments to initialize FocusSaveTracker.
  */
 export interface IFocusChangeAutoSaveSettingsArgs {
@@ -52,19 +64,35 @@ export class FocusChangeAutoSaveSettings {
   }
 
   /**
+   * Parse setting and extract values.
+   *
+   * @param setting Read settings
+   * @returns Parsed settings to be used with FocusChangeAutoSaveTracker.updateSettings
+   */
+  parseSetting(
+    setting: ISettingRegistry.ISettings,
+  ): IFocusChangeAutoSaveSettings {
+    // Read the settings and convert to the correct type
+    this._active = setting.get('active').composite as boolean;
+    const exclude = setting.get('exclude').composite as string[];
+    const saveOnCellFocusChange = setting.get('saveOnCellFocusChange')
+      .composite as boolean;
+    return { active: this._active, exclude, saveOnCellFocusChange };
+  }
+
+  /**
    * Callback for changed settings
    *
    * @param setting loaded setting instance
    */
   loadSetting(setting: ISettingRegistry.ISettings): void {
-    // Read the settings and convert to the correct type
-    this._active = setting.get('active').composite as boolean;
-    const exclude = setting.get('exclude').composite as string[];
-    this._saveTracker.updateSettings(this._active, exclude);
+    const trackerSettings = this.parseSetting(setting);
+    this._saveTracker.updateSettings(trackerSettings);
 
-    this._debug_printer('FocusChangeAutoSaveSettings.loadSetting:', {
-      active: this._active,
-    });
+    this._debug_printer(
+      'FocusChangeAutoSaveSettings.loadSetting:',
+      trackerSettings,
+    );
   }
 
   /**

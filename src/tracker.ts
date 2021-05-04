@@ -10,6 +10,7 @@ import { toArray } from '@lumino/algorithm';
 import { Minimatch, IMinimatch } from 'minimatch';
 
 import { debug_printer, create_debug_printer } from './utils';
+import { IFocusChangeAutoSaveSettings } from './settings';
 
 /**
  * Arguments to initialize FocusSaveTracker.
@@ -47,6 +48,8 @@ export class FocusChangeAutoSaveTracker {
   private _nodes = new Map<HTMLElement, Widget>();
   /** Glob pattern matcher to check if a document is excluded. */
   private _excludeMatcher: IMinimatch;
+  /** Save cells of focus change auto save tracker */
+  private _saveOnCellFocusChange: boolean;
   private _debug_printer: (...args: any[]) => void;
 
   /**
@@ -127,13 +130,46 @@ export class FocusChangeAutoSaveTracker {
    * See: https://stackoverflow.com/a/58149336/3990615
    */
   handleEvent(event: Event): void {
-    const widget = this._nodes.get(event.currentTarget as HTMLElement);
+    let widget: Widget | undefined;
     switch (event.type) {
       case 'focusout':
-        this.saveDocumentWidget(widget);
+        widget = this.getWidgetFromEvent(event as FocusEvent);
+        this._debug_printer('FocusEvent: ', event);
+        if (widget !== undefined) {
+          this.saveDocumentWidget(widget);
+        }
         break;
     }
   }
+
+  /**
+   * Get Widget depending what triggered the event.
+   * This allows filtering of bubbled up focusout events from changing
+   * the focussed cell.
+   *
+   * @param event Focus event triggered by an editor or child widget
+   * @returns Document Widget or undefined
+   */
+  getWidgetFromEvent(event: FocusEvent): Widget | undefined {
+    if (this._saveOnCellFocusChange !== true) {
+      const relatedTarget = event.relatedTarget as HTMLElement;
+      const target = event.target as HTMLElement;
+      if (
+        relatedTarget === null ||
+        relatedTarget.contains(target) || // cell is in focused widget
+        relatedTarget.nodeName !== 'DIV' // newly created cell (TEXTAREA)
+      ) {
+        return undefined;
+      }
+      this._debug_printer(
+        'target in relatedTarget: ',
+        relatedTarget.contains(target),
+      );
+    }
+    const targetNode = event.currentTarget as HTMLElement;
+    return this._nodes.get(targetNode);
+  }
+
   /**
    * Save Widget if it is a document Widget.
    *
@@ -157,19 +193,24 @@ export class FocusChangeAutoSaveTracker {
   }
 
   /**
-   * Activate or deactivate the tracking.
+   * Activate or deactivate the tracking, with new settings.
    *
    * @param active Setting if the Extension is active or not.
    */
-  updateSettings(active: boolean, exclude: string[]): void {
-    this._excludeMatcher = new Minimatch(`{${exclude.join(',')},}`, {
-      nocomment: true,
-    });
+  // updateSettings(active: boolean, exclude: string[]): void {
+  updateSettings(trackerSetting: IFocusChangeAutoSaveSettings): void {
+    this._excludeMatcher = new Minimatch(
+      `{${trackerSetting.exclude.join(',')},}`,
+      {
+        nocomment: true,
+      },
+    );
+    this._saveOnCellFocusChange = trackerSetting.saveOnCellFocusChange;
     this._debug_printer('_excludeMatcher: ', this._excludeMatcher);
-    debug_printer(true, 'Setting active state to: ', active);
+    debug_printer(true, 'Setting active state to: ', trackerSetting.active);
     this.saveAllDocumentWidgets();
 
-    if (active === true) {
+    if (trackerSetting.active === true) {
       this.trackWidgets();
       this._notebookTracker.widgetAdded.connect(this.trackWidgets, this);
       this._editorTracker.widgetAdded.connect(this.trackWidgets, this);
