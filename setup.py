@@ -15,7 +15,7 @@ name = "jupyterlab_autosave_on_focus_change"
 lab_path = HERE / name / "labextension"
 
 # Representative files that should exist after a successful build
-ensured_targets = [str(lab_path / "package.json"), str(lab_path / "static/style.js")]
+ensured_targets = [str(lab_path / "package.json")]
 
 labext_name = "jupyterlab_autosave_on_focus_change"
 
