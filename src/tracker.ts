@@ -171,9 +171,18 @@ export class FocusChangeAutoSaveTracker {
    */
   saveDocumentWidget(widget: Widget): void {
     const context = this._docManager.contextForWidget(widget);
-    if (this._excludeMatcher.match(context.path) === false) {
-      context.save();
-      this._debug_printer('Saving: ', context.path);
+    if (
+      this._excludeMatcher.match(context.path) === false &&
+      context.isDisposed === false
+    ) {
+      context
+        .save()
+        .then(() => {
+          this._debug_printer('Saving: ', context.path);
+        })
+        .catch(reason => {
+          this._debug_printer(`Error saving: ${context.path}`, reason);
+        });
     }
   }
 
