@@ -151,23 +151,17 @@ export class FocusChangeAutoSaveTracker {
    * @returns Document Widget or undefined
    */
   getWidgetFromEvent(event: FocusEvent): Widget | undefined {
-    if (this._saveOnCellFocusChange !== true) {
+    const currentTarget = event.currentTarget as HTMLElement;
+    if (this._saveOnCellFocusChange === false) {
       const relatedTarget = event.relatedTarget as HTMLElement;
-      const target = event.target as HTMLElement;
       if (
-        relatedTarget === null ||
-        relatedTarget.contains(target) || // cell is in focused widget
-        relatedTarget.nodeName !== 'DIV' // newly created cell (TEXTAREA)
+        relatedTarget !== null &&
+        currentTarget.contains(relatedTarget) // new focused widget inside old document widget
       ) {
         return undefined;
       }
-      this._debug_printer(
-        'target in relatedTarget: ',
-        relatedTarget.contains(target),
-      );
     }
-    const targetNode = event.currentTarget as HTMLElement;
-    return this._nodes.get(targetNode);
+    return this._nodes.get(currentTarget);
   }
 
   /**
