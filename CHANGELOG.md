@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.2 (2021-05-07)
+
+- Fixed bug when saving widget while closing (no more error Popup)
+- Filtering cells is more robust
+
 ## 0.1.1 (2021-05-04)
 
 - Fixed bug that saved notebooks on cell focus change
