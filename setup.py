@@ -50,7 +50,7 @@ setup_args = dict(
     install_requires=["jupyterlab~=3.1", "jupyter_packaging~=0.9,<2"],
     zip_safe=False,
     include_package_data=True,
-    python_requires=">=3.6",
+    python_requires=">=3.7",
     platforms="Linux, Mac OS X, Windows",
     project_urls={
         "Documentation": "https://s-weigand.github.io/jupyterlab_autosave_on_focus_change/",
@@ -71,7 +71,6 @@ setup_args = dict(
         "License :: OSI Approved :: BSD License",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
