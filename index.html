@@ -1,0 +1,70 @@
+<!DOCTYPE html><html class="default"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>jupyterlab_autosave_on_focus_change</title><meta name="description" content="Documentation for jupyterlab_autosave_on_focus_change"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><script>document.body.classList.add(localStorage.getItem("tsd-theme") || "os")</script><header><div class="tsd-page-toolbar"><div class="container"><div class="table-wrap"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption">Search</label><input type="text" id="tsd-search-field"/></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">jupyterlab_autosave_on_focus_change</a></div><div class="table-cell" id="tsd-widgets"><div id="tsd-filter"><a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a><div class="tsd-filter-group"><div class="tsd-select" id="tsd-filter-visibility"><span class="tsd-select-label">All</span><ul class="tsd-select-list"><li data-value="public">Public</li><li data-value="protected">Public/Protected</li><li data-value="private" class="selected">All</li></ul></div> <input type="checkbox" id="tsd-filter-inherited" checked/><label class="tsd-widget" for="tsd-filter-inherited">Inherited</label><input type="checkbox" id="tsd-filter-externals" checked/><label class="tsd-widget" for="tsd-filter-externals">Externals</label></div></div><a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a></div></div></div></div><div class="tsd-page-title"><div class="container"><h1> jupyterlab_autosave_on_focus_change</h1></div></div></header><div class="container container-main"><div class="row"><div class="col-8 col-content"><div class="tsd-panel tsd-typography">
+<a href="#jupyterlab-autosave-on-focus-change" id="jupyterlab-autosave-on-focus-change" style="color: inherit; text-decoration: none;">
+  <h1>Jupyterlab Autosave on Focus Change</h1>
+</a>
+<p><a href="https://pypi.org/project/jupyterlab_autosave_on_focus_change/"><img src="https://img.shields.io/pypi/v/jupyterlab_autosave_on_focus_change.svg" alt="PyPi Version"></a>
+<a href="https://pypi.org/project/jupyterlab_autosave_on_focus_change/"><img src="https://img.shields.io/pypi/pyversions/jupyterlab_autosave_on_focus_change.svg" alt="Supported Python Versions"></a>
+<img src="https://github.com/s-weigand/jupyterlab_autosave_on_focus_change/workflows/Build/badge.svg" alt="Github Actions Status">
+<a href="https://mybinder.org/v2/gh/s-weigand/jupyterlab_autosave_on_focus_change/main?urlpath=lab"><img src="https://mybinder.org/badge_logo.svg" alt="Binder"></a>
+<a href="https://s-weigand.github.io/jupyterlab_autosave_on_focus_change/"><img src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" alt="Docs"></a></p>
+<p>A Jupyterlab extension to autosave files on focus change.</p>
+<br>
+
+<img style="display: block; margin: auto;" src="https://github.com/s-weigand/jupyterlab_autosave_on_focus_change/blob/main/assets/demo.gif?raw=true">
+
+<p>Who doesn&#39;t know this scenario, you changed some code or input file and the changes don&#39;t apply because (<strong>again!</strong>)
+you forgot to save the file.</p>
+<p>This is where editor settings to save files when the tab (or the whole editor) loose focus come in super handy.</p>
+<p>This extension aims to do the same for jupyterlab as the following setting in VS-Code.</p>
+<pre><code class="language-json"><span class="hl-0">  </span><span class="hl-1">&quot;files.autoSave&quot;</span><span class="hl-0">: </span><span class="hl-1">&quot;onFocusChange&quot;</span><span class="hl-0">,</span>
+</code></pre>
+
+<a href="#features" id="features" style="color: inherit; text-decoration: none;">
+  <h2>Features</h2>
+</a>
+<ul>
+<li>Autosave on focus change</li>
+<li>De-/Activation via Settings Menu</li>
+<li>File exclusion with glob patterns</li>
+</ul>
+
+<a href="#requirements" id="requirements" style="color: inherit; text-decoration: none;">
+  <h2>Requirements</h2>
+</a>
+<ul>
+<li>JupyterLab &gt;= 3.0</li>
+</ul>
+
+<a href="#install" id="install" style="color: inherit; text-decoration: none;">
+  <h2>Install</h2>
+</a>
+<pre><code class="language-bash"><span class="hl-0">pip install jupyterlab-autosave-on-focus-change</span>
+</code></pre>
+
+<a href="#contributing" id="contributing" style="color: inherit; text-decoration: none;">
+  <h2>Contributing</h2>
+</a>
+
+<a href="#development-install" id="development-install" style="color: inherit; text-decoration: none;">
+  <h3>Development install</h3>
+</a>
+<p>Note: You will need NodeJS to build the extension package.</p>
+<p>The <code>jlpm</code> command is JupyterLab&#39;s pinned version of
+<a href="https://yarnpkg.com/">yarn</a> that is installed with JupyterLab. You may use
+<code>yarn</code> or <code>npm</code> in lieu of <code>jlpm</code> below.</p>
+<pre><code class="language-bash"><span class="hl-2"># Clone the repo to your local environment</span><br/><span class="hl-2"># Change directory to the jupyterlab_autosave_on_focus_change directory</span><br/><span class="hl-2"># Install package in development mode</span><br/><span class="hl-0">pip install -e </span><span class="hl-3">.</span><br/><span class="hl-2"># Link your development version of the extension with JupyterLab</span><br/><span class="hl-0">jupyter labextension develop </span><span class="hl-3">.</span><span class="hl-0"> --overwrite</span><br/><span class="hl-2"># Rebuild extension Typescript source after making changes</span><br/><span class="hl-0">jlpm run build</span>
+</code></pre>
+<p>You can watch the source directory and run JupyterLab at the same time in different terminals to watch for changes in the extension&#39;s source and automatically rebuild the extension.</p>
+<pre><code class="language-bash"><span class="hl-2"># Watch the source directory in one terminal, automatically rebuilding when needed</span><br/><span class="hl-0">jlpm run watch</span><br/><span class="hl-2"># Run JupyterLab in another terminal</span><br/><span class="hl-0">jupyter lab</span>
+</code></pre>
+<p>With the watch command running, every saved change will immediately be built locally and available in your running JupyterLab. Refresh JupyterLab to load the change in your browser (you may need to wait several seconds for the extension to be rebuilt).</p>
+<p>By default, the <code>jlpm run build</code> command generates the source maps for this extension to make it easier to debug using the browser dev tools. To also generate source maps for the JupyterLab core extensions, you can run the following command:</p>
+<pre><code class="language-bash"><span class="hl-0">jupyter lab build --minimize=False</span>
+</code></pre>
+
+<a href="#uninstall" id="uninstall" style="color: inherit; text-decoration: none;">
+  <h3>Uninstall</h3>
+</a>
+<pre><code class="language-bash"><span class="hl-0">pip uninstall jupyterlab-autosave-on-focus-change</span>
+</code></pre>
+</div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Modules</a></li><li class=" tsd-kind-module"><a href="modules/consts.html">consts</a></li><li class=" tsd-kind-module"><a href="modules/index.html">index</a></li><li class=" tsd-kind-module"><a href="modules/settings.html">settings</a></li><li class=" tsd-kind-module"><a href="modules/tracker.html">tracker</a></li><li class=" tsd-kind-module"><a href="modules/utils.html">utils</a></li></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Legend</h2><div class="tsd-legend-group"><ul class="tsd-legend"><li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li><li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li></ul></div><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>
