@@ -3,6 +3,7 @@ name: Deploy Docs
 on:
   push:
     branches: main
+  pull_request:
 
 jobs:
   deploy-docs:
@@ -24,7 +25,7 @@ jobs:
           jlpm run docs
 
       - name: Deploy to GitHub Pages
-        if: success()
+        if: success() && github.event_name == 'push' && github.event.ref == 'refs/heads/main'
         uses: crazy-max/ghaction-github-pages@v2
         with:
           target_branch: gh-pages
