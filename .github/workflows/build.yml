@@ -2,7 +2,10 @@ name: Build
 
 on:
   push:
-    branches: main
+    tags:
+      - v**
+    branches-ignore:
+      - "dependabot/**"
   pull_request:
     branches: '*'
 
