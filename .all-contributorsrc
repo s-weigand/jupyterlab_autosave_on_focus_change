@@ -21,6 +21,16 @@
         "test",
         "doc"
       ]
+    },
+    {
+      "login": "mengyanw",
+      "name": "mengyanw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/85606983?v=4",
+      "profile": "https://www.wumengyan.com/",
+      "contributions": [
+        "code",
+        "maintenance"
+      ]
     }
   ],
   "contributorsPerLine": 7,
