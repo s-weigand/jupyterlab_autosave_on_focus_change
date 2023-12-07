@@ -31,7 +31,7 @@ This extension aims to do the same for jupyterlab as the following setting in VS
 
 ## Requirements
 
-- JupyterLab >= 3.0
+- JupyterLab >= 4.0
 
 ## Install
 

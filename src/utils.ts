@@ -18,7 +18,7 @@ export const debug_printer = (debug: boolean, ...args: any[]): void => {
  * @returns Debug printer only the args to print need to be passed to
  */
 export const create_debug_printer = (
-  debug: boolean,
+  debug: boolean
 ): ((...args: any[]) => void) => {
   const debug_state = debug;
   const printer = (...args: any[]) => {

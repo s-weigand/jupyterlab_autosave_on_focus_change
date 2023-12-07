@@ -1,0 +1,13 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: v4.2.4
+_src_path: https://github.com/jupyterlab/extension-template
+author_email: s.weigand.phy@gmail.com
+author_name: Sebastian Weigand
+has_binder: true
+has_settings: true
+kind: frontend
+labextension_name: jupyterlab_autosave_on_focus_change
+project_short_description: Jupyterlab extension to autosave files on focus change
+python_name: jupyterlab_autosave_on_focus_change
+repository: https://github.com/s-weigand/jupyterlab_autosave_on_focus_change.git
+test: false

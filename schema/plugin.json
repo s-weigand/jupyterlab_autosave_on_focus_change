@@ -1,0 +1,8 @@
+{
+  "jupyter.lab.shortcuts": [],
+  "title": "jupyterlab_autosave_on_focus_change",
+  "description": "jupyterlab_autosave_on_focus_change settings.",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

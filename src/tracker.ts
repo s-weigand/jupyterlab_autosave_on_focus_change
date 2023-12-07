@@ -205,8 +205,8 @@ export class FocusChangeAutoSaveTracker {
     this._excludeMatcher = new Minimatch(
       `{${trackerSetting.exclude.join(',')},}`,
       {
-        nocomment: true,
-      },
+        nocomment: true
+      }
     );
     this._saveOnCellFocusChange = trackerSetting.saveOnCellFocusChange;
     this._debug_printer('_excludeMatcher: ', this._excludeMatcher);
