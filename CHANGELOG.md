@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.0 (2023-12-07)
+
+- ✨ Support JupyterLab 4 🍻 (#35)
+
 ## 0.2.0 (2022-01-23)
 
 - 🚧 Drop python 3.6 support (#19)
