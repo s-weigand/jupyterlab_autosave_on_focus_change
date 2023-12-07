@@ -1,6 +1,6 @@
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin,
+  JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
 import { INotebookTracker } from '@jupyterlab/notebook';
@@ -27,7 +27,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     IEditorTracker,
     IDocumentManager,
     ISettingRegistry,
-    IMainMenu,
+    IMainMenu
   ],
   activate: (
     app: JupyterFrontEnd,
@@ -35,17 +35,17 @@ const extension: JupyterFrontEndPlugin<void> = {
     editorTracker: IEditorTracker,
     docManager: IDocumentManager,
     settingRegistry: ISettingRegistry,
-    mainMenu: IMainMenu,
+    mainMenu: IMainMenu
   ) => {
     console.log(
-      'JupyterLab extension jupyterlab_autosave_on_focus_change is activated!',
+      'JupyterLab extension jupyterlab_autosave_on_focus_change is activated!'
     );
 
     const focusSaveTracker = new FocusChangeAutoSaveTracker({
       shell: app.shell,
       docManager,
       notebookTracker,
-      editorTracker,
+      editorTracker
       // debug: true,
     });
 
@@ -53,12 +53,12 @@ const extension: JupyterFrontEndPlugin<void> = {
       app,
       settingRegistry,
       focusSaveTracker,
-      mainMenu,
+      mainMenu
       // debug: true,
     });
 
     settings.trackSettingChanges();
-  },
+  }
 };
 
 export default extension;

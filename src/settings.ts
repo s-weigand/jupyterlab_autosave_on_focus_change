@@ -53,7 +53,7 @@ export class FocusChangeAutoSaveSettings {
   constructor(initArgs: IFocusChangeAutoSaveSettingsArgs) {
     const args: IFocusChangeAutoSaveSettingsArgs = {
       debug: false,
-      ...initArgs,
+      ...initArgs
     };
     this._app = args.app;
     this._settingRegistry = args.settingRegistry;
@@ -70,7 +70,7 @@ export class FocusChangeAutoSaveSettings {
    * @returns Parsed settings to be used with FocusChangeAutoSaveTracker.updateSettings
    */
   parseSetting(
-    setting: ISettingRegistry.ISettings,
+    setting: ISettingRegistry.ISettings
   ): IFocusChangeAutoSaveSettings {
     // Read the settings and convert to the correct type
     this._active = setting.get('active').composite as boolean;
@@ -91,7 +91,7 @@ export class FocusChangeAutoSaveSettings {
 
     this._debug_printer(
       'FocusChangeAutoSaveSettings.loadSetting:',
-      trackerSettings,
+      trackerSettings
     );
   }
 
@@ -112,7 +112,7 @@ export class FocusChangeAutoSaveSettings {
       })
       .catch(reason => {
         console.error(
-          `Something went wrong when reading the settings.\n${reason}`,
+          `Something went wrong when reading the settings.\n${reason}`
         );
       });
   }
@@ -134,21 +134,21 @@ export class FocusChangeAutoSaveSettings {
             setting.changed.connect(this.loadSetting, this);
             this._debug_printer(
               'FocusChangeAutoSaveSettings.addToggleCommand:',
-              { active: setting.get('active').composite as boolean },
+              { active: setting.get('active').composite as boolean }
             );
           })
           .catch(reason => {
             console.error(
-              `Something went wrong when changing the settings.\n${reason}`,
+              `Something went wrong when changing the settings.\n${reason}`
             );
           });
-      },
+      }
     });
 
     // Add command to setting menu before "Autosave Documents"
     this._mainMenu.settingsMenu.addGroup(
       [{ command: TOGGLE_ACTIVE_COMMAND_ID }],
-      4,
+      4
     );
   }
 }

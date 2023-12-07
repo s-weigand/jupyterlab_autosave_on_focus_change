@@ -11,4 +11,3 @@ project_short_description: Jupyterlab extension to autosave files on focus chang
 python_name: jupyterlab_autosave_on_focus_change
 repository: https://github.com/s-weigand/jupyterlab_autosave_on_focus_change.git
 test: false
-
