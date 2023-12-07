@@ -1,39 +1,31 @@
-name: Deploy Docs
+name: Docs
 
 on:
   push:
     branches: main
+  pull_request:
 
 jobs:
-  deploy-docs:
+  docs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Install node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '14.x'
 
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-      - name: Setup yarn cache
-        uses: actions/cache@v3
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            yarn-
+      - name: Base Setup
+        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+
+      - name: Install dependencies
+        run: python -m pip install -U "jupyterlab>=4.0.0,<5"
+
       - name: Build Docs
         run: |
           set -eux
-          yarn install --frozen-lockfile
-          yarn run docs
+          jlpm
+          jlpm run docs
 
       - name: Deploy to GitHub Pages
-        if: success()
+        if: success() && github.event_name == 'push' && github.event.ref == 'refs/heads/main'
         uses: crazy-max/ghaction-github-pages@v2
         with:
           target_branch: gh-pages
