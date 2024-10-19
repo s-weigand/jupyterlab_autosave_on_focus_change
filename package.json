@@ -94,7 +94,7 @@
         "stylelint-prettier": "^4.0.0",
         "typedoc": "^0.25.4",
         "typescript": "~5.0.2",
-        "yarn-audit-fix": "^9.0.8",
+        "yarn-audit-fix": "10.0.9",
         "yjs": "^13.5.40"
     },
     "jupyterlab": {
