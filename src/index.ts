@@ -23,10 +23,15 @@ const extension: JupyterFrontEndPlugin<void> = {
   id: PLUGIN_ID,
   autoStart: true,
   requires: [
+    // @ts-expect-error is not assignable to type 'Token<any>'
     INotebookTracker,
+    // @ts-expect-error is not assignable to type 'Token<any>'
     IEditorTracker,
+    // @ts-expect-error is not assignable to type 'Token<any>'
     IDocumentManager,
+    // @ts-expect-error is not assignable to type 'Token<any>'
     ISettingRegistry,
+    // @ts-expect-error is not assignable to type 'Token<any>'
     IMainMenu
   ],
   activate: (

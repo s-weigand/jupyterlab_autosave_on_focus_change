@@ -3,4 +3,5 @@ node_modules
 **/lib
 **/package.json
 !/package.json
-jupyterlab_autosave_on_focus_change
+**/jupyterlab_autosave_on_focus_change
+**/.venv
