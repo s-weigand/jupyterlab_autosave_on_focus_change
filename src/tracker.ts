@@ -7,7 +7,7 @@ import { IEditorTracker } from '@jupyterlab/fileeditor';
 import { Widget } from '@lumino/widgets';
 import { toArray } from '@lumino/algorithm';
 
-import { Minimatch, IMinimatch } from 'minimatch';
+import { Minimatch } from 'minimatch';
 
 import { debug_printer, create_debug_printer } from './utils';
 import { IFocusChangeAutoSaveSettings } from './settings';
@@ -47,7 +47,7 @@ export class FocusChangeAutoSaveTracker {
   /** Mapping of widget nodes to widget objects to be used with event handlers */
   private _nodes = new Map<HTMLElement, Widget>();
   /** Glob pattern matcher to check if a document is excluded. */
-  private _excludeMatcher: IMinimatch;
+  private _excludeMatcher: Minimatch;
   /** Save cells of focus change auto save tracker */
   private _saveOnCellFocusChange: boolean;
   private _debug_printer: (...args: any[]) => void;
@@ -173,6 +173,7 @@ export class FocusChangeAutoSaveTracker {
     const context = this._docManager.contextForWidget(widget);
     if (
       this._excludeMatcher.match(context.path) === false &&
+      context.model.dirty === true &&
       context.isDisposed === false
     ) {
       context
