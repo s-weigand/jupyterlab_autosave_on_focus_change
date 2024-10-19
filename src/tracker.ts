@@ -173,6 +173,7 @@ export class FocusChangeAutoSaveTracker {
     const context = this._docManager.contextForWidget(widget);
     if (
       this._excludeMatcher.match(context.path) === false &&
+      context.model.dirty === true &&
       context.isDisposed === false
     ) {
       context
